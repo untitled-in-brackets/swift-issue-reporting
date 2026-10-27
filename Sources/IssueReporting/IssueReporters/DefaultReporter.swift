@@ -1,4 +1,6 @@
-#if canImport(FoundationEssentials)
+#if canImport(Darwin)
+  public import Foundation
+#elseif canImport(FoundationEssentials)
   import FoundationEssentials
 #else
   import Foundation
