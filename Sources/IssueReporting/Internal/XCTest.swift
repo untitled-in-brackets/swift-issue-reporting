@@ -1,5 +1,5 @@
 #if DEBUG
-  #if _runtime(_ObjC)
+  #if Foundation && _runtime(_ObjC)
     public import Foundation
   #endif
 
@@ -18,7 +18,7 @@ func _XCTFail(
   file: StaticString = #filePath,
   line: UInt = #line
 ) {
-  #if !_runtime(_ObjC)
+  #if !(Foundation && _runtime(_ObjC))
     guard !_XCTExpectedFailure.isInFailingBlock else { return }
   #endif
   guard let function = function(for: "$s25IssueReportingTestSupport8_XCTFailypyF")
@@ -57,7 +57,7 @@ func _XCTExpectFailure<R>(
   line: UInt,
   failingBlock: () throws -> R
 ) rethrows -> R {
-  #if _runtime(_ObjC)
+  #if Foundation && _runtime(_ObjC)
     guard let function = function(for: "$s25IssueReportingTestSupport17_XCTExpectFailureypyF")
     else {
       #if DEBUG
@@ -121,7 +121,7 @@ func _XCTExpectFailure<R>(
   #endif
 }
 
-#if !_runtime(_ObjC)
+#if !(Foundation && _runtime(_ObjC))
   @usableFromInline
   enum _XCTExpectedFailure {
     @TaskLocal public static var isInFailingBlock = false

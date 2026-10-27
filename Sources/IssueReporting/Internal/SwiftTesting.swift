@@ -1,7 +1,19 @@
-import Foundation
+#if canImport(FoundationEssentials)
+  import FoundationEssentials
+#else
+  import Foundation
+#endif
 
 #if canImport(Android)
   import Android
+#endif
+
+#if canImport(Glibc)
+  import Glibc
+#elseif canImport(Darwin)
+  import Darwin
+#elseif canImport(WASILibc)
+  import WASILibc
 #endif
 
 #if canImport(WinSDK)

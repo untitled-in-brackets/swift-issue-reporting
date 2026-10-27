@@ -1,10 +1,8 @@
-import Foundation
-
 @usableFromInline
 final class FailureObserver: @unchecked Sendable {
   @TaskLocal public static var current: FailureObserver?
 
-  private let lock = NSRecursiveLock()
+  private let lock = RecursiveLock()
   private var count = 0
 
   @usableFromInline
@@ -14,8 +12,8 @@ final class FailureObserver: @unchecked Sendable {
 
   @usableFromInline
   func withLock<R>(_ body: (inout Int) -> R) -> R {
-    lock.lock()
-    defer { lock.unlock() }
-    return body(&count)
+    lock.withLock {
+      body(&count)
+    }
   }
 }

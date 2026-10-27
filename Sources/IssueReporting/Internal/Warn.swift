@@ -1,7 +1,15 @@
-#if os(Linux) || os(Android)
-  @preconcurrency import Foundation
+#if canImport(Android)
+  import Android
+#elseif canImport(Glibc)
+  import Glibc
+#elseif canImport(Darwin)
+  import Darwin
+#elseif canImport(WASILibc)
+  import WASILibc
 #else
-  import Foundation
+  #if Foundation && canImport(Foundation)
+    @preconcurrency import Foundation
+  #endif
 #endif
 
 #if canImport(WinSDK)
@@ -10,5 +18,14 @@
 
 @usableFromInline
 func printError(_ message: String) {
-  fputs("\(message)\n", stderr)
+  #if canImport(Android) || canImport(Glibc) || canImport(Darwin) || canImport(WASILibc)
+    let bytes = Array("\(message)\n".utf8)
+    bytes.withUnsafeBytes { buffer in
+      _ = write(2, buffer.baseAddress, buffer.count)
+    }
+  #elseif Foundation && canImport(Foundation)
+    fputs("\(message)\n", stderr)
+  #else
+    print(message)
+  #endif
 }

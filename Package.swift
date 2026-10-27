@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.1
 
 import Foundation
 import PackageDescription
@@ -20,6 +20,10 @@ let package = Package(
         : nil,
       targets: ["IssueReportingTestSupport"]
     ),
+  ],
+  traits: [
+    "Foundation",
+    .default(enabledTraits: ["Foundation"]),
   ],
   targets: [
     .target(

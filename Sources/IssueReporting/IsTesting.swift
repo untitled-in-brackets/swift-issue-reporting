@@ -1,8 +1,10 @@
-#if os(WASI)
+#if Foundation && canImport(Foundation)
+  import Foundation
+#endif
+
+#if !(Foundation && canImport(Foundation))
   public let isTesting = false
 #else
-  import Foundation
-
   /// Whether or not the current process is running tests.
   ///
   /// You can use this information to prevent application code from running when hosting tests. For
