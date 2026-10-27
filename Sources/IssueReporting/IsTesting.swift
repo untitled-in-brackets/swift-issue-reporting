@@ -1,8 +1,10 @@
-#if Foundation && canImport(Foundation)
+#if canImport(FoundationEssentials)
+  import FoundationEssentials
+#else
   import Foundation
 #endif
 
-#if !(Foundation && canImport(Foundation))
+#if os(WASI)
   public let isTesting = false
 #else
   /// Whether or not the current process is running tests.

@@ -1,4 +1,6 @@
-#if Foundation && canImport(Foundation)
+#if canImport(FoundationEssentials)
+  import FoundationEssentials
+#else
   import Foundation
 #endif
 
@@ -199,13 +201,11 @@ public struct _DefaultReporter: IssueReporter {
       message = "Issue reported"
     }
     #if canImport(os)
-      #if Foundation
-        guard ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1"
-        else {
-          print("🟣 \(fileID):\(line): \(message)")
-          return
-        }
-      #endif
+      guard ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1"
+      else {
+        print("🟣 \(fileID):\(line): \(message)")
+        return
+      }
       let moduleName = String(
         Substring("\(fileID)".utf8.prefix(while: { $0 != UTF8.CodeUnit(ascii: "/") }))
       )
